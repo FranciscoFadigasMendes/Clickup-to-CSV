@@ -1,3 +1,4 @@
+import json
 import requests
 import csv
 
@@ -26,9 +27,13 @@ if response.status_code == 200:
         # Safely get 'tasks' key or an empty list if not found
         tasks = data.get("tasks", [])
 
+        # Save the .json file
+        with open("Sprint4_Raw.json", "w") as fwriter:
+            json.dump(fp=fwriter, obj=tasks, indent=4, sort_keys=True)
+
         if tasks:
             # Step 3: Define the CSV file and write the header
-            with open("clickup_tasks.csv", mode="w", newline="") as csv_file:
+            with open("Sprint4_Raw", mode="w", newline="") as csv_file:
                 fieldnames = ["id", "name", "status", "due_date", "priority", "assignees"]
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                 writer.writeheader()
